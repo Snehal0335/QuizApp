@@ -17,7 +17,6 @@ Test on browser http//localhost:8080
 Generating the password  to get entry in the argocd web ui
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"
 
-[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("d3VJdEpKY2t4eUNxODFCcw=="))
 
           paste this password in gui
           craete new app
@@ -83,4 +82,5 @@ public class Curry_server {
         return rupee * getRate("Euro");
     }
 }
+
 
