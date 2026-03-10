@@ -1,3 +1,42 @@
+gitoops and argocd
+
+  Search for argocd-example-apps on github then fork 
+
+    minikube strat --driver=docker
+    minikube status
+    kubeclt get nodes
+    kubectl create namespace argocd
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    kubectl get pods -n argocd
+
+      New power shell
+Port forwarding
+        kubectl port-forward svc/argocd-server -n argocd 8080:443 --address 0.0.0.0
+Go to browser
+Test on browser http//localhost:8080
+Generating the password  to get entry in the argocd web ui
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"
+
+[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("d3VJdEpKY2t4eUNxODFCcw=="))
+
+          paste this password in gui
+          craete new app
+          copy paste the github url
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Wsdl database connection
   package server;
 
@@ -44,3 +83,4 @@ public class Curry_server {
         return rupee * getRate("Euro");
     }
 }
+
