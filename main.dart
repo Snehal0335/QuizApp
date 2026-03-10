@@ -1,67 +1,49 @@
-Prac 8
-Kali root terminal(first check ansible –version if not there )
-sudo apt update
-sudo apt –allow-insecure-repositories
-sudo apt install kali-archive-keyring –reinstall
-sudo abt install Ansible
-ansible –version
-nano install_nginx.yml
---- 
-- name: Install and Start NGINX 
-  hosts: localhost 
-  become: yes 
- 
-  tasks: 
-    - name: Install NGINX 
-      apt: 
-        name: nginx         
-state: present 
- 
-    - name: Start Nginx service 
-      service: 
-        name: nginx         
-state: started 
- 
-    - name: Create a file 
-      file:  
-        path: /home/kali/demo.txt         
-state: touch 
+WSDL Database connection server code 
 
+  package server;
 
+import java.sql.*;
+import javax.jws.WebService;
+import javax.jws.WebMethod;
 
-run yml file
-ls
-ansible-playbook -i hosts install_ngnix.yml --ask-become-pass
-ls -i ~/demo.txt
-/var/www/html
-Ls
-Sudo rm index.html
+@WebService(serviceName = "Curry_server")
+public class Curry_server {
 
-Cicd github
-node {
-    stage('DEV') {
-        echo 'Cloning GitHub repository'
-        git branch: 'main',
-            url: 'https://github.com/Snehal0335/cc_ampify.git'
+    @WebMethod
+    public double rupeeToDollar(double rupee) throws Exception {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        Connection con = DriverManager.getConnection(
+        "jdbc:mysql://localhost:3306/currency_db","root","");
+
+        PreparedStatement ps = con.prepareStatement(
+        "SELECT rate FROM currency WHERE name='Dollar'");
+
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+
+        double rate = rs.getDouble("rate");
+
+        return rupee * rate;
     }
-    stage('QA') {
-        input 'QA DEPLOY?'
-    }
-    stage('DEPLOY TO PROD') {
-    bat 'xcopy "index.html" "C:\\Users\\Snehal\\Downloads\\apache-tomcat-11.0.18\\apache-tomcat-11.0.18\\webapps\\ROOT" /Y'
+
+    @WebMethod
+    public double rupeeToEuro(double rupee) throws Exception {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        Connection con = DriverManager.getConnection(
+        "jdbc:mysql://localhost:3306/currency_db","root","");
+
+        PreparedStatement ps = con.prepareStatement(
+        "SELECT rate FROM currency WHERE name='Euro'");
+
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+
+        double rate = rs.getDouble("rate");
+
+        return rupee * rate;
     }
 }
-
-
-
-5C
-
-  ssh
-  sudo apt-get update
-  sudo snap install aws-cli --classic
-  aws S3 ls
-  scp -i "path of keppari.pem file" "vpc=kp.pem" ubuntu@13.126.101.78:/home/ubuntu
-
-  sudo su
-
-
