@@ -53,3 +53,15 @@ node {
 }
 
 
+
+5C
+
+  ssh
+  sudo apt-get update
+  sudo snap install aws-cli --classic
+  aws S3 ls
+  scp -i "path of keppari.pem file" "vpc=kp.pem" ubuntu@13.126.101.78:/home/ubuntu
+
+  sudo su
+
+
