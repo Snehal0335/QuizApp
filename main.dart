@@ -1,5 +1,4 @@
-WSDL Database connection server code 
-
+Wsdl database connection
   package server;
 
 import java.sql.*;
@@ -9,41 +8,39 @@ import javax.jws.WebMethod;
 @WebService(serviceName = "Curry_server")
 public class Curry_server {
 
-    @WebMethod
-    public double rupeeToDollar(double rupee) throws Exception {
+    public double getRate(String name) {
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
+        double rate = 0;
 
-        Connection con = DriverManager.getConnection(
-        "jdbc:mysql://localhost:3306/currency_db","root","");
+        try {
 
-        PreparedStatement ps = con.prepareStatement(
-        "SELECT rate FROM currency WHERE name='Dollar'");
+            Connection con = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/currency_db","root","");
 
-        ResultSet rs = ps.executeQuery();
-        rs.next();
+            PreparedStatement ps = con.prepareStatement(
+            "SELECT rate FROM currency WHERE name=?");
 
-        double rate = rs.getDouble("rate");
+            ps.setString(1, name);
 
-        return rupee * rate;
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+
+            rate = rs.getDouble("rate");
+
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+
+        return rate;
     }
 
     @WebMethod
-    public double rupeeToEuro(double rupee) throws Exception {
+    public double rupeeToDollar(double rupee) {
+        return rupee * getRate("Dollar");
+    }
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
-
-        Connection con = DriverManager.getConnection(
-        "jdbc:mysql://localhost:3306/currency_db","root","");
-
-        PreparedStatement ps = con.prepareStatement(
-        "SELECT rate FROM currency WHERE name='Euro'");
-
-        ResultSet rs = ps.executeQuery();
-        rs.next();
-
-        double rate = rs.getDouble("rate");
-
-        return rupee * rate;
+    @WebMethod
+    public double rupeeToEuro(double rupee) {
+        return rupee * getRate("Euro");
     }
 }
